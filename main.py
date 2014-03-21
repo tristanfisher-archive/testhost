@@ -9,6 +9,9 @@ LISTENING_PORT='5000'
 
 app = Flask(__name__)
 app.debug = True
+#if you are using this for actual data (for some reason),
+#you should change the following key:
+app.secret_key = "R'1\xa8\xaf\x07l\xab\r|\xc4P\x93\xaf2z"
 
 #db = SQLAlchemy(app)
 
@@ -39,6 +42,12 @@ def show_int(test_int):
 def check_session():
     if 'status' in session:
         return 'session is %s' % escape(session['status'])
+    return redirect(url_for('index'))
+
+@app.route('/session/clear')
+def clear_session():
+    for key in session:
+        session.pop(key, None)
     return redirect(url_for('index'))
 
 @app.route('/status')
